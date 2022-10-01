@@ -8,7 +8,7 @@ public class Server {
 
     private static final int PORT= 8989;
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
         try (ServerSocket serverSocket = new ServerSocket(PORT)){
             System.out.println("Сервер стратовал... ");
@@ -21,23 +21,25 @@ public class Server {
                     if (cities.isEmpty()){
                         out.println("???");
                         String newCity = in.readLine();
-                        cities.add(newCity);
+                        cities.add(newCity.toLowerCase());
+                        out.println("OK");
                     } else {
                         String lastCity = cities.get(cities.size() - 1);
                         char lastLetter = lastCity.toLowerCase().charAt(lastCity.length() - 1);
+                        String newCity;
                         out.println("Послдений город " + lastCity + ". Введите новый город на букву <" + lastLetter + ">");
-                        String newCity = in.readLine();
-                        if (cities.contains(newCity)) {
-                            out.println("Такой город уже называли. Попробуй еще раз");
-                        } else {
-                            char firstLetter = newCity.toLowerCase().charAt(0);
-                            if (firstLetter == lastLetter) {
-                                cities.add(newCity);
-                                out.println("OK");
-                            } else {
-                                out.println("Не OK");
-                                out.println("Послдений город остается " + lastCity + ". Введите новый город на букву " + lastLetter);
+                        do {
+                            newCity = in.readLine();
+                            if (cities.contains(newCity.toLowerCase())) {
+                                out.println("Такой город уже называли. Попробуй еще раз");
                             }
+                        } while (cities.contains(newCity.toLowerCase()));
+                        char firstLetter = newCity.toLowerCase().charAt(0);
+                        if (firstLetter == lastLetter) {
+                            cities.add(newCity.toLowerCase());
+                            out.println("OK");
+                        } else {
+                            out.println("Не OK");
                         }
                     }
                 }

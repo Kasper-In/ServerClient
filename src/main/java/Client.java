@@ -18,14 +18,19 @@ public class Client {
              PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
              ){
-             String serverAnswer = in.readLine();
-             if (serverAnswer.equals("???")){
+             String serverStart = in.readLine();
+             if (serverStart.equals("???")){
                 System.out.println("Игра началась. Введите первый город: ");
              } else {
-                 System.out.println(serverAnswer);
+                 System.out.println(serverStart);
              }
-             String city = sc.nextLine();
-             out.println(city);
+             String serverAnswer;
+              do {
+                 String city = sc.nextLine();
+                 out.println(city);
+                 serverAnswer = in.readLine();
+                 System.out.println(serverAnswer);
+             } while (!serverAnswer.equals("OK") && !serverAnswer.equals("Не OK"));
         } catch (IOException e) {
               System.out.println(e.getMessage());
         }
